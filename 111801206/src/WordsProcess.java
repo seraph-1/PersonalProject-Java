@@ -106,12 +106,12 @@ public class WordsProcess {
     public void outputFile(){
         try{
             BufferedWriter writer = new BufferedWriter(new FileWriter(outputName));
-            writer.write("characters: "+numberChar+'\n');
-            writer.write("words: "+numberWord+'\n');
-            writer.write("lines: "+numberLine+'\n');
+            writer.write("characters: " + numberChar + '\n');
+            writer.write("words: " + numberWord+'\n');
+            writer.write("lines: " + numberLine+'\n');
             for(Object obj : map.keySet()){
                 Integer value = map.get(obj);
-                writer.write(obj+": "+value+'\n');
+                writer.write(obj + ": " + value + '\n');
             }
             writer.close();
         }
