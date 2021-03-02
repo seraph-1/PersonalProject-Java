@@ -22,6 +22,13 @@ public class WordsProcess {
         outputName = output;
     }
 
+    public void deal(){
+        this.countChar();
+        this.countWord();
+        this.countLine();
+        this.outputFile();
+    }
+
     private void countChar(){
         try {
             int ch;
@@ -35,7 +42,6 @@ public class WordsProcess {
             e.printStackTrace();
         }
     }
-
 
     private void countLine(){
         try{
@@ -67,7 +73,7 @@ public class WordsProcess {
                 temp = element.toLowerCase();
                 if(temp.matches("[a-zA-Z]{4}[a-zA-Z0-9]*")){
                     map.merge(temp, 1, Integer::sum);
-                    numberWord++;
+                    numberWord ++;
                 }
             }
             ArrayList<Map.Entry<String,Integer>> list =
@@ -82,7 +88,7 @@ public class WordsProcess {
                 }
             });
             LinkedHashMap<String,Integer> newMap = new LinkedHashMap<>();
-            for(total=0;total<list.size();total++){
+            for(total = 0;total < list.size();total ++){
                 if(total > 10){
                     break;
                 }
@@ -92,7 +98,23 @@ public class WordsProcess {
             }
             map = newMap;
         }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+    }
 
+    public void outputFile(){
+        try{
+            BufferedWriter writer = new BufferedWriter(new FileWriter(outputName));
+            writer.write("characters: "+numberChar+'\n');
+            writer.write("words: "+numberWord+'\n');
+            writer.write("lines: "+numberLine+'\n');
+            for(Object obj : map.keySet()){
+                Integer value = map.get(obj);
+                writer.write(obj+": "+value+'\n');
+            }
+            writer.close();
+        }
         catch (IOException e){
             e.printStackTrace();
         }
