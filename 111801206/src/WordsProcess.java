@@ -22,6 +22,8 @@ public class WordsProcess {
         outputName = output;
     }
 
+
+
     //统计字符数
     private void countChar(){
         try {
@@ -51,5 +53,33 @@ public class WordsProcess {
             e.printStackTrace();
         }
     }
+
+    //统计单词数并排序单词
+    private void countWord(){
+        try{
+            int ch;
+            String string,temp;
+            BufferedReader br = new BufferedReader(new FileReader(inputName));
+            StringBuilder builder = new StringBuilder();
+            while((ch = br.read()) != -1){
+                builder.append((char)ch);
+            }
+            br.close();
+            string = builder.toString();
+            String[] content = string.split("[^(a-zA-Z0-9)]");
+            for (String element:content) {
+                temp = element.toLowerCase();
+                if(temp.matches("[a-zA-Z]{4}[a-zA-Z0-9]*")){
+                    map.merge(temp, 1, Integer::sum);
+                    numberWord++;
+                }
+            }
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+
 
 }
