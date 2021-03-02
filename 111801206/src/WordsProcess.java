@@ -37,4 +37,19 @@ public class WordsProcess {
         }
     }
 
+    //统计行数
+    private void countLine(){
+        try{
+            String regex = "\\s*";
+            String line = null;
+            BufferedReader br = new BufferedReader(new FileReader(inputName));
+            while((line = br.readLine()) != null){
+                if(!line.matches(regex))numberLine++;
+            }
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
