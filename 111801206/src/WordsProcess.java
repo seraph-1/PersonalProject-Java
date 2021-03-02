@@ -22,9 +22,6 @@ public class WordsProcess {
         outputName = output;
     }
 
-
-
-    //统计字符数
     private void countChar(){
         try {
             int ch;
@@ -39,7 +36,7 @@ public class WordsProcess {
         }
     }
 
-    //统计行数
+
     private void countLine(){
         try{
             String regex = "\\s*";
@@ -54,10 +51,9 @@ public class WordsProcess {
         }
     }
 
-    //统计单词数并排序单词
     private void countWord(){
         try{
-            int ch;
+            int ch,total;
             String string,temp;
             BufferedReader br = new BufferedReader(new FileReader(inputName));
             StringBuilder builder = new StringBuilder();
@@ -74,12 +70,31 @@ public class WordsProcess {
                     numberWord++;
                 }
             }
+            ArrayList<Map.Entry<String,Integer>> list =
+                    new ArrayList<>(map.entrySet());
+            Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
+                @Override
+                public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+                    if (o1.getValue() == o2.getValue()){
+                        return (o1.getKey()).compareTo(o2.getKey());
+                    }
+                    else return (o2.getValue()).compareTo(o1.getValue());
+                }
+            });
+            LinkedHashMap<String,Integer> newMap = new LinkedHashMap<>();
+            for(total=0;total<list.size();total++){
+                if(total > 10){
+                    break;
+                }
+                Integer value = list.get(total).getValue();
+                String key = list.get(total).getKey();
+                newMap.put(key,value);
+            }
+            map = newMap;
         }
+
         catch (IOException e){
             e.printStackTrace();
         }
     }
-
-
-
 }
