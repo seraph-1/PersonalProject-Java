@@ -22,41 +22,41 @@ public class WordsProcess {
     }
 
     public void deal() throws IOException{
-        this.countChar();
-        this.countWord();
-        this.countLine();
+        String str = readFile();
+        this.countChar(str);
+        this.countWord(str);
+        this.countLine(str);
+        this.sortWord();
         this.outputFile();
     }
 
-    private void countChar() throws IOException{
-            int ch;
-            BufferedReader br = new BufferedReader(new FileReader(inputName));
-            while((ch = br.read()) != -1){
-                if(ch < 128)numberChar++;
-            }
-            br.close();
+    private String readFile() throws IOException{
+        int ch;
+        BufferedReader br = new BufferedReader(new FileReader(inputName));
+        StringBuilder builder = new StringBuilder();
+        while((ch = br.read()) != -1){
+            if (ch < 128)builder.append((char)ch);
+        }
+        br.close();
+        return builder.toString();
     }
 
-    private void countLine() throws IOException{
-            String regex = "\\s*";
-            String line = null;
-            BufferedReader br = new BufferedReader(new FileReader(inputName));
-            while((line = br.readLine()) != null){
-                if(!line.matches(regex))numberLine++;
-            }
-            br.close();
+    private void countChar(String string){
+            numberChar = string.length();
     }
 
-    private void countWord() throws IOException{
-            int ch,total;
-            String string,temp;
-            BufferedReader br = new BufferedReader(new FileReader(inputName));
-            StringBuilder builder = new StringBuilder();
-            while((ch = br.read()) != -1){
-                builder.append((char)ch);
-            }
-            br.close();
-            string = builder.toString();
+    private void countLine(String string){
+        String regex = "\\s*";
+        String[] content = string.split("\n");
+        int total = content.length;
+        for (String line : content) {
+            if (line.matches(regex))total --;
+        }
+        numberLine = total;
+    }
+
+    private void countWord(String string){
+            String temp;
             String[] content = string.split("[^(a-zA-Z0-9)]");
             for (String element:content) {
                 temp = element.toLowerCase();
@@ -65,27 +65,31 @@ public class WordsProcess {
                     numberWord ++;
                 }
             }
-            ArrayList<Map.Entry<String,Integer>> list =
-                    new ArrayList<>(map.entrySet());
-            Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
-                @Override
-                public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
-                    if (o1.getValue() == o2.getValue()){
-                        return (o1.getKey()).compareTo(o2.getKey());
-                    }
-                    else return (o2.getValue()).compareTo(o1.getValue());
+    }
+
+    private void sortWord(){
+        int total;
+        ArrayList<Map.Entry<String,Integer>> list =
+                new ArrayList<>(map.entrySet());
+        Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
+            @Override
+            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+                if (o1.getValue() == o2.getValue()){
+                    return (o1.getKey()).compareTo(o2.getKey());
                 }
-            });
-            LinkedHashMap<String,Integer> newMap = new LinkedHashMap<>();
-            for(total = 0;total < list.size();total ++){
-                if(total >= 10){
-                    break;
-                }
-                Integer value = list.get(total).getValue();
-                String key = list.get(total).getKey();
-                newMap.put(key,value);
+                else return (o2.getValue()).compareTo(o1.getValue());
             }
-            map = newMap;
+        });
+        LinkedHashMap<String,Integer> newMap = new LinkedHashMap<>();
+        for(total = 0;total < list.size();total ++){
+            if(total >= 10){
+                break;
+            }
+            Integer value = list.get(total).getValue();
+            String key = list.get(total).getKey();
+            newMap.put(key,value);
+        }
+        map = newMap;
     }
 
     public void outputFile() throws IOException{
