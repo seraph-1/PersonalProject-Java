@@ -89,7 +89,7 @@ public class WordsProcess {
             });
             LinkedHashMap<String,Integer> newMap = new LinkedHashMap<>();
             for(total = 0;total < list.size();total ++){
-                if(total > 10){
+                if(total >= 10){
                     break;
                 }
                 Integer value = list.get(total).getValue();
