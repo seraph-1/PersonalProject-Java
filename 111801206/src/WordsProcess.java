@@ -11,7 +11,6 @@ public class WordsProcess {
     private HashMap<String,Integer> map;
     private String inputName;
     private String outputName;
-    private FileReader fileReader;
 
     WordsProcess(String input,String output){
         numberChar = 0;
@@ -22,29 +21,23 @@ public class WordsProcess {
         outputName = output;
     }
 
-    public void deal(){
+    public void deal() throws IOException{
         this.countChar();
         this.countWord();
         this.countLine();
         this.outputFile();
     }
 
-    private void countChar(){
-        try {
+    private void countChar() throws IOException{
             int ch;
             BufferedReader br = new BufferedReader(new FileReader(inputName));
             while((ch = br.read()) != -1){
                 if(ch < 128)numberChar++;
             }
             br.close();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
-    private void countLine(){
-        try{
+    private void countLine() throws IOException{
             String regex = "\\s*";
             String line = null;
             BufferedReader br = new BufferedReader(new FileReader(inputName));
@@ -52,13 +45,9 @@ public class WordsProcess {
                 if(!line.matches(regex))numberLine++;
             }
             br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
-    private void countWord(){
-        try{
+    private void countWord() throws IOException{
             int ch,total;
             String string,temp;
             BufferedReader br = new BufferedReader(new FileReader(inputName));
@@ -97,14 +86,9 @@ public class WordsProcess {
                 newMap.put(key,value);
             }
             map = newMap;
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
     }
 
-    public void outputFile(){
-        try{
+    public void outputFile() throws IOException{
             BufferedWriter writer = new BufferedWriter(new FileWriter(outputName));
             writer.write("characters: " + numberChar + '\n');
             writer.write("words: " + numberWord+'\n');
@@ -114,9 +98,5 @@ public class WordsProcess {
                 writer.write(obj + ": " + value + '\n');
             }
             writer.close();
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
     }
 }
