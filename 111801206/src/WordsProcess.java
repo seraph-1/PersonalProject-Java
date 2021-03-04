@@ -72,7 +72,7 @@ public class WordsProcess {
     //统计单词数
     public void countWord(String string){
         String temp;
-        String[] content = string.split("[^(a-zA-Z0-9)]");
+        String[] content = string.split("[^a-zA-Z0-9]");
         for (String element:content) {
             temp = element.toLowerCase();
             if(temp.matches("[a-zA-Z]{4}[a-zA-Z0-9]*")){
