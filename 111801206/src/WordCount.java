@@ -14,7 +14,7 @@ public class WordCount {
                 wp.deal();
             }
             catch (IOException e){
-                System.out.println("can not find the file");
+                System.out.println("File Error!");
             }
         }
 }
