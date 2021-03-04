@@ -2,7 +2,6 @@
 
 import java.io.*;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class WordsProcess {
     private int numberChar;
@@ -11,6 +10,30 @@ public class WordsProcess {
     private HashMap<String,Integer> map;
     private String inputName;
     private String outputName;
+
+    public int getNumberChar() {
+        return numberChar;
+    }
+
+    public void setNumberChar(int numberChar) {
+        this.numberChar = numberChar;
+    }
+
+    public int getNumberLine() {
+        return numberLine;
+    }
+
+    public void setNumberLine(int numberLine) {
+        this.numberLine = numberLine;
+    }
+
+    public int getNumberWord() {
+        return numberWord;
+    }
+
+    public void setNumberWord(int numberWord) {
+        this.numberWord = numberWord;
+    }
 
     WordsProcess(String input,String output){
         numberChar = 0;
@@ -21,16 +44,17 @@ public class WordsProcess {
         outputName = output;
     }
 
+    //全部处理
     public void deal() throws IOException{
         String str = readFile();
         this.countChar(str);
         this.countWord(str);
         this.countLine(str);
-        this.sortWord();
         this.outputFile();
     }
 
-    private String readFile() throws IOException{
+    //读取文件并组装为长字符串
+    public String readFile() throws IOException{
         int ch;
         BufferedReader br = new BufferedReader(new FileReader(inputName));
         StringBuilder builder = new StringBuilder();
@@ -41,11 +65,13 @@ public class WordsProcess {
         return builder.toString();
     }
 
-    private void countChar(String string){
-            numberChar = string.length();
+    //统计字符数
+    public void countChar(String string){
+        numberChar = string.length();
     }
 
-    private void countLine(String string){
+    //统计行数
+    public void countLine(String string){
         String regex = "\\s*";
         String[] content = string.split("\n");
         int total = content.length;
@@ -55,19 +81,22 @@ public class WordsProcess {
         numberLine = total;
     }
 
-    private void countWord(String string){
-            String temp;
-            String[] content = string.split("[^(a-zA-Z0-9)]");
-            for (String element:content) {
-                temp = element.toLowerCase();
-                if(temp.matches("[a-zA-Z]{4}[a-zA-Z0-9]*")){
-                    map.merge(temp, 1, Integer::sum);
-                    numberWord ++;
-                }
+    //统计单词数
+    public void countWord(String string){
+        String temp;
+        String[] content = string.split("[^(a-zA-Z0-9)]");
+        for (String element:content) {
+            temp = element.toLowerCase();
+            if(temp.matches("[a-zA-Z]{4}[a-zA-Z0-9]*")){
+                map.merge(temp, 1, Integer::sum);
+                numberWord ++;
             }
+        }
+        sortWord();
     }
 
-    private void sortWord(){
+    //排序单词
+    public void sortWord(){
         int total;
         ArrayList<Map.Entry<String,Integer>> list =
                 new ArrayList<>(map.entrySet());
@@ -92,6 +121,7 @@ public class WordsProcess {
         map = newMap;
     }
 
+    //输出文件
     public void outputFile() throws IOException{
             BufferedWriter writer = new BufferedWriter(new FileWriter(outputName));
             writer.write("characters: " + numberChar + '\n');
