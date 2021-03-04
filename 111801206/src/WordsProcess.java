@@ -15,24 +15,12 @@ public class WordsProcess {
         return numberChar;
     }
 
-    public void setNumberChar(int numberChar) {
-        this.numberChar = numberChar;
-    }
-
     public int getNumberLine() {
         return numberLine;
     }
 
-    public void setNumberLine(int numberLine) {
-        this.numberLine = numberLine;
-    }
-
     public int getNumberWord() {
         return numberWord;
-    }
-
-    public void setNumberWord(int numberWord) {
-        this.numberWord = numberWord;
     }
 
     WordsProcess(String input,String output){
